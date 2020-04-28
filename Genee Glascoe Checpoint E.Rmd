@@ -1,0 +1,134 @@
+---
+title: "Checkpoint E"
+author: "Genee' Glascoe"
+date: "26 April 2020"
+output: html_document
+---
+
+***
+### Question 1
+
+# The name of the package that needs to be installed to provide full access to the tidyverse is library(tidyverse)
+
+***
+### Question 2
+
+library(tidyverse)
+
+```{r}
+health <- read_csv("Small Cities Health Data.csv")
+health <- as_tibble(health)
+health
+```
+
+***
+### Question 3
+```{r}
+as.data.frame(health)
+health
+```
+```{r}
+as_tibble(health)
+health
+```
+
+***
+### Question 4
+
+```{r}
+ggplot(health, aes(x=hosp.beds, y=doctors))+
+  geom_point()+
+  labs(x = "Hospital Beds",
+       y = "Physicians",
+       title = "Relationship of Hospital Beds to Physcians")
+```
+
+***
+### Question 5
+
+```{r}
+health %>%
+  filter(hosp.beds < 1000)%>%
+ggplot(aes(x=hosp.beds, y=doctors))+
+  geom_point()+
+  labs(x = "Hospital Beds",
+       y = "Physicians",
+       title = "Relationship of Cities with less than 1000 Hospital Beds to Physcians")
+```
+
+***
+### Question 6
+```{r}
+health %>%
+  filter(hosp.beds < 1000)%>%
+ggplot(aes(x=hosp.beds, y=doctors))+
+  geom_point(aes(x=hosp.beds, y=doctors))+
+  stat_smooth()+
+  labs(x = "Hospital Beds",
+       y = "Physicians",
+       title = "Relationship of Cities with less than 1000 Hospital Beds to Physcians")
+```
+
+***
+### Question 7
+
+
+```{r}
+densities <- read_csv("Small Cities Densities.csv")
+health <- densities %>%
+  left_join(health)
+```
+
+***
+### Question 8
+
+  
+```{r}
+health$density <- as_factor(health$density)
+health %>% mutate(density = fct_recode(density, low = density < "80", 
+                                       middle = density<"120", 
+                                       high = (density>"121"))
+```
+
+***
+### Question 9
+```{r}
+health %>%
+  filter(hosp.beds < 1000)%>%
+ggplot(aes(x=hosp.beds, y=doctors))+
+  geom_point(aes(x=hosp.beds, y=doctors))+
+  stat_smooth(se = FALSE)+
+  facet_wrap(vars(density))
+```
+
+***
+### Question 10   
+```{r}
+health %>%
+  filter(hosp.beds < 1000)%>%
+ggplot(aes(x=hosp.beds, y=doctors))+
+  geom_point(aes(x=hosp.beds, y=doctors))+
+  stat_smooth(se = FALSE)+
+  facet_wrap(vars(density))+
+  labs(x = "Hospital Beds",
+       y = "Physicians",
+       title = "Relationship of Cities Densites with less than 1000 Hospital Beds to Physcians")
+  
+```
+
+***
+### Question 11
+```{r}
+patient <- read_csv("Patient Data.csv")
+patient <- as_tibble(patient) 
+patient$patient <- str_sub(patient$patient, 8, 9)
+```
+
+***
+### Question 12
+# This is a tidy data.
+```{r}
+patient
+```
+
+
